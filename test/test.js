@@ -175,6 +175,10 @@ function checkJSSyntax () {
 // Util
 // -----------------------------------------------------------------------------
 
+function isBoolean (b) {
+  return b === true || b === false
+}
+
 function isFn (f) {
   return typeof f === 'function'
 }
@@ -208,6 +212,16 @@ function checkModuleForFunctions (filename, module, fns) {
   })
 }
 
+function assertContainsVariable (syntaxTree, fnName, varName) {
+  assert.ok(fnContainVariable(syntaxTree.body, fnName, varName),
+    'function "' + fnName + '" should contain the variable "' + varName + '"')
+}
+
+function assertReturnsVariable (syntaxTree, fnName, varName) {
+  assert.ok(fnReturnsIdentifier(syntaxTree.body, fnName, varName),
+    'function "' + fnName + '" should return the variable "' + varName + '"')
+}
+
 // -----------------------------------------------------------------------------
 // 100 - Make Some Numbers
 // -----------------------------------------------------------------------------
@@ -232,35 +246,84 @@ function check100 () {
   checkModuleForFunctions('100-make-some-numbers.js', module, ['makeANumber', 'makeAnInteger', 'makeAFloat', 'makeZero'])
 
   it('"makeANumber" function', function () {
-    assert.ok(fnContainVariable(syntaxTree.body, 'makeANumber', 'myNum'),
-      'function "makeANumber" should contain a variable "myNum"')
-    assert.ok(fnReturnsIdentifier(syntaxTree.body, 'makeANumber', 'myNum'),
-      'function "makeANumber" should return the variable "myNum"')
+    assertContainsVariable(syntaxTree, 'makeANumber', 'myNum')
+    assertReturnsVariable(syntaxTree, 'makeANumber', 'myNum')
     assert(isNumber(module.makeANumber()), 'makeANumber() should return a valid JavaScript number.')
   })
 
   it('"makeAnInteger" function', function () {
-    assert.ok(fnContainVariable(syntaxTree.body, 'makeAnInteger', 'myInt'),
-      'function "makeAnInteger" should contain a variable "myInt"')
-    assert.ok(fnReturnsIdentifier(syntaxTree.body, 'makeAnInteger', 'myInt'),
-      'function "makeAnInteger" should return the variable "myInt"')
+    assertContainsVariable(syntaxTree, 'makeAnInteger', 'myInt')
+    assertReturnsVariable(syntaxTree, 'makeAnInteger', 'myInt')
     assert(Number.isInteger(module.makeAnInteger()), 'makeAnInteger() should return a integer.')
   })
 
   it('"makeAFloat" function', function () {
-    assert.ok(fnContainVariable(syntaxTree.body, 'makeAFloat', 'myFloat'),
-      'function "makeAFloat" should contain a variable "myFloat"')
-    assert.ok(fnReturnsIdentifier(syntaxTree.body, 'makeAFloat', 'myFloat'),
-      'function "makeAFloat" should return the variable "myFloat"')
+    assertContainsVariable(syntaxTree, 'makeAFloat', 'myFloat')
+    assertReturnsVariable(syntaxTree, 'makeAFloat', 'myFloat')
     assert(isFloat(module.makeAFloat()), 'makeAFloat() should return a float.')
   })
 
   it('"makeZero" function', function () {
-    assert.ok(fnContainVariable(syntaxTree.body, 'makeZero', 'zero'),
-      'function "makeZero" should contain a variable "zero"')
-    assert.ok(fnReturnsIdentifier(syntaxTree.body, 'makeZero', 'zero'),
-      'function "makeZero" should return the variable "zero"')
+    assertContainsVariable(syntaxTree, 'makeZero', 'zilch')
+    assertReturnsVariable(syntaxTree, 'makeZero', 'zilch')
     assert(module.makeZero() === 0, 'makeZero() should return the number 0.')
+  })
+}
+
+// -----------------------------------------------------------------------------
+// 102 - Undefined, Booleans, Null
+// -----------------------------------------------------------------------------
+
+function check102 () {
+  const moduleFileName = '../' + moduleName('exercises/102-undefined-booleans-null.js')
+  let module = null
+  try {
+    module = require(moduleFileName)
+  } catch (e) { }
+
+  if (!module) {
+    it('Unable to read ' + moduleFileName, function () {
+      assert.fail('Unable to read ' + moduleFileName)
+    })
+    return
+  }
+
+  const fileContents = fs.readFileSync('exercises/102-undefined-booleans-null.js', utf8)
+  const syntaxTree = esprima.parseScript(fileContents)
+
+  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeNothing'])
+  it('"makeNothing" function', function () {
+    assertContainsVariable(syntaxTree, 'makeNothing', 'huh')
+    assertReturnsVariable(syntaxTree, 'makeNothing', 'huh')
+    assert(undefined === module.makeNothing(), 'makeNothing() should return undefined.')
+  })
+
+  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeBoolean'])
+  it('"makeBoolean" function', function () {
+    assertContainsVariable(syntaxTree, 'makeBoolean', 'myBool')
+    assertReturnsVariable(syntaxTree, 'makeBoolean', 'myBool')
+    assert(isBoolean(module.makeBoolean()), 'makeBoolean() should return a boolean value (true or false).')
+  })
+
+  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeTrue'])
+  it('"makeTrue" function', function () {
+    assertContainsVariable(syntaxTree, 'makeTrue', 'yup')
+    assertReturnsVariable(syntaxTree, 'makeTrue', 'yup')
+    assert(module.makeTrue() === true, 'makeTrue() should return the boolean value true.')
+  })
+
+  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeFalse'])
+  it('"makeFalse" function', function () {
+    assertContainsVariable(syntaxTree, 'makeFalse', 'nope')
+    assertReturnsVariable(syntaxTree, 'makeFalse', 'nope')
+    assert(module.makeFalse() === false, 'makeFalse() should return the boolean value false.')
+  })
+
+  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeNull'])
+  it('"makeNull" function', function () {
+    assertContainsVariable(syntaxTree, 'makeNull', 'nothingMuch')
+    assertReturnsVariable(syntaxTree, 'makeNull', 'nothingMuch')
+    assert(module.makeNull() === null, 'makeNull() should return null.')
   })
 }
 
@@ -273,6 +336,7 @@ describe('JavaScript Syntax', checkJSSyntax)
 // only run the test suite if there were no syntax errors
 if (allSyntaxValid) {
   createModuleFiles()
-  describe('Make Some Numbers', check100)
+  // describe('Make Some Numbers', check100)
+  describe('Undefined, booleans, null', check102)
   destroyModuleFiles()
 }

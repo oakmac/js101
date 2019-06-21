@@ -16,36 +16,7 @@ function makeAFloat () {
 
 }
 
-// Declare a variable "zero" and assign the number 0 to it, then return "zero"
+// Declare a variable "zilch" and assign the number 0 to it, then return "zilch"
 function makeZero () {
 
 }
-
-
-
-
-
-
-
-
-/*
-function makeNothing () {
-  // Declare and instantiate a string "Hello World!" and return it
-
-}
-
-function makeAString () {
-  // Declare and instantiate an array containing the string "Hello World!" and the number 4 and return it
-
-}
-
-function makeAnArray () {
-  // Declare and instantiate an object containing the key-value pairs key1 -> "Hello World!" and key2 -> 4, and return it
-
-}
-
-function lvl1exercise7 () {
-  // Declare and instantiate a boolean value 'false' and return it
-
-}
-*/
