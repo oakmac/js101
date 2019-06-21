@@ -2,7 +2,7 @@
 
 Programming exercises for a beginning JavaScript programmer.
 
-These exercises use Strings, loops, Objects, and Arrays to solve logic problems.
+These exercises focus on basic syntax: functions, numbers, strings, Arrays, Objects.
 
 ## Install
 

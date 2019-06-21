@@ -203,6 +203,12 @@ function isArray (a) {
 // Assertion Utils
 // -----------------------------------------------------------------------------
 
+function checkForFunction (filename, module, fnName) {
+  it(filename + ' should contain a function "' + fnName + '"', function () {
+    assert(isFn(module[fnName]), 'function "' + fnName + '" not found in exercises/' + filename)
+  })
+}
+
 function checkModuleForFunctions (filename, module, fns) {
   const msg = filename + ' should have ' + fns.length + ' functions: ' + fns.join(', ')
   it(msg, function () {
@@ -233,11 +239,11 @@ function functionContainsText (moduleText, fnName, expressionText) {
 }
 
 // -----------------------------------------------------------------------------
-// 100 - Make Some Numbers
+// 100 - Numbers
 // -----------------------------------------------------------------------------
 
 function check100 () {
-  const moduleFileName = '../' + moduleName('exercises/100-make-some-numbers.js')
+  const moduleFileName = '../' + moduleName('exercises/100-numbers.js')
   let module = null
   try {
     module = require(moduleFileName)
@@ -250,10 +256,10 @@ function check100 () {
     return
   }
 
-  const fileContents = fs.readFileSync('exercises/100-make-some-numbers.js', utf8)
+  const fileContents = fs.readFileSync('exercises/100-numbers.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkModuleForFunctions('100-make-some-numbers.js', module, ['makeANumber', 'makeAnInteger', 'makeAFloat', 'makeZero'])
+  checkModuleForFunctions('100-numbers.js', module, ['makeANumber', 'makeAnInteger', 'makeAFloat', 'makeZero'])
 
   it('"makeANumber" function', function () {
     assertContainsVariable(syntaxTree, 'makeANumber', 'myNum')
@@ -301,35 +307,35 @@ function check102 () {
   const fileContents = fs.readFileSync('exercises/102-undefined-booleans-null.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeNothing'])
+  checkForFunction('102-undefined-booleans-null.js', module, 'makeNothing')
   it('"makeNothing" function', function () {
     assertContainsVariable(syntaxTree, 'makeNothing', 'huh')
     assertReturnsVariable(syntaxTree, 'makeNothing', 'huh')
     assert(undefined === module.makeNothing(), 'makeNothing() should return undefined.')
   })
 
-  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeBoolean'])
+  checkForFunction('102-undefined-booleans-null.js', module, 'makeBoolean')
   it('"makeBoolean" function', function () {
     assertContainsVariable(syntaxTree, 'makeBoolean', 'myBool')
     assertReturnsVariable(syntaxTree, 'makeBoolean', 'myBool')
     assert(isBoolean(module.makeBoolean()), 'makeBoolean() should return a boolean value (true or false).')
   })
 
-  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeTrue'])
+  checkForFunction('102-undefined-booleans-null.js', module, 'makeTrue')
   it('"makeTrue" function', function () {
     assertContainsVariable(syntaxTree, 'makeTrue', 'yup')
     assertReturnsVariable(syntaxTree, 'makeTrue', 'yup')
     assert(module.makeTrue() === true, 'makeTrue() should return the boolean value true.')
   })
 
-  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeFalse'])
+  checkForFunction('102-undefined-booleans-null.js', module, 'makeFalse')
   it('"makeFalse" function', function () {
     assertContainsVariable(syntaxTree, 'makeFalse', 'nope')
     assertReturnsVariable(syntaxTree, 'makeFalse', 'nope')
     assert(module.makeFalse() === false, 'makeFalse() should return the boolean value false.')
   })
 
-  checkModuleForFunctions('102-undefined-booleans-null.js', module, ['makeNull'])
+  checkForFunction('102-undefined-booleans-null.js', module, 'makeNull')
   it('"makeNull" function', function () {
     assertContainsVariable(syntaxTree, 'makeNull', 'nothingMuch')
     assertReturnsVariable(syntaxTree, 'makeNull', 'nothingMuch')
@@ -363,31 +369,31 @@ function check104 () {
   const fileContents = fs.readFileSync('exercises/104-strings.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkModuleForFunctions('104-strings.js', module, ['helloWorld'])
+  checkForFunction('104-strings.js', module, 'helloWorld')
   it('"helloWorld" function', function () {
     assert(module.helloWorld() === 'Hello, world!', 'helloWorld() should return the string "Hello, world!".')
   })
 
-  checkModuleForFunctions('104-strings.js', module, ['helloName'])
+  checkForFunction('104-strings.js', module, 'helloName')
   it('"helloName" function', function () {
     assert(module.helloName('Bob') === 'Hello, Bob!', 'helloName("Bob") should return the string "Hello, Bob!".')
     assert(module.helloName('') === 'Hello, !', 'helloName("") should return the string "Hello, !".')
   })
 
-  checkModuleForFunctions('104-strings.js', module, ['abstractLength'])
+  checkForFunction('104-strings.js', module, 'abstractLength')
   it('"abstractLength" function', function () {
     assert(module.abstractLength() === tarPitAbstract.length, 'abstractLength() should return the length of the "tarPitAbstract" string.')
     assert.ok(functionContainsText(fileContents, 'abstractLength', 'tarPitAbstract.length'), 'abstractLength() should use the .length property')
   })
 
   const chorus = 'Who let the dogs out?'
-  checkModuleForFunctions('104-strings.js', module, ['makeLoud'])
+  checkForFunction('104-strings.js', module, 'makeLoud')
   it('"makeLoud" function', function () {
     assert(module.makeLoud() === chorus.toUpperCase(), 'makeLoud() should return the string "' + chorus.toUpperCase() + '"')
     assert.ok(functionContainsText(fileContents, 'makeLoud', '.toUpperCase()'), 'makeLoud() should use the .toUpperCase() method')
   })
 
-  checkModuleForFunctions('104-strings.js', module, ['makeQuiet'])
+  checkForFunction('104-strings.js', module, 'makeQuiet')
   it('"makeQuiet" function', function () {
     assert(module.makeQuiet('ABC') === 'abc', 'makeQuiet("ABC") should return the string "abc"')
     assert(module.makeQuiet('abc') === 'abc', 'makeQuiet("abc") should return the string "abc"')
@@ -407,9 +413,9 @@ describe('JavaScript Syntax', checkJSSyntax)
 // only run the test suite if there were no syntax errors
 if (allSyntaxValid) {
   createModuleFiles()
-  // describe('Make Some Numbers', check100)
-  // describe('Undefined, booleans, null', check102)
-  // describe('Strings', check104)
+  describe('Numbers', check100)
+  describe('Undefined, booleans, null', check102)
+  describe('Strings', check104)
   // TODO: Math
   // TODO: Arrays
   // TODO: Objects
