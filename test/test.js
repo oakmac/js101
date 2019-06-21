@@ -222,6 +222,16 @@ function assertReturnsVariable (syntaxTree, fnName, varName) {
     'function "' + fnName + '" should return the variable "' + varName + '"')
 }
 
+// this is a hack, but mostly works
+// TODO: check the syntax tree properly instead
+function functionContainsText (moduleText, fnName, expressionText) {
+  const functionStartIdx = moduleText.indexOf('function ' + fnName)
+  if (functionStartIdx === -1) return false
+
+  const moduleTextAfterFn = moduleText.substring(functionStartIdx)
+  return moduleTextAfterFn.includes(expressionText)
+}
+
 // -----------------------------------------------------------------------------
 // 100 - Make Some Numbers
 // -----------------------------------------------------------------------------
@@ -328,6 +338,67 @@ function check102 () {
 }
 
 // -----------------------------------------------------------------------------
+// 104 - Strings
+// -----------------------------------------------------------------------------
+
+const tarPitAbstract = 'Complexity is the single major difficulty in the successful development of large-scale software systems. ' +
+  'Following Brooks we distinguish accidental from essential difficulty, but disagree with his premise that most complexity remaining in contemporary systems is essential. ' +
+  'We identify common causes of complexity and discuss general approaches which can be taken to eliminate them where they are accidental in nature. ' +
+  'To make things more concrete we then give an outline for a potential complexity-minimizing approach based on functional programming and Codd’s relational model of data.'
+
+function check104 () {
+  const moduleFileName = '../' + moduleName('exercises/104-strings.js')
+  let module = null
+  try {
+    module = require(moduleFileName)
+  } catch (e) { }
+
+  if (!module) {
+    it('Unable to read ' + moduleFileName, function () {
+      assert.fail('Unable to read ' + moduleFileName)
+    })
+    return
+  }
+
+  const fileContents = fs.readFileSync('exercises/104-strings.js', utf8)
+  const syntaxTree = esprima.parseScript(fileContents)
+
+  checkModuleForFunctions('104-strings.js', module, ['helloWorld'])
+  it('"helloWorld" function', function () {
+    assert(module.helloWorld() === 'Hello, world!', 'helloWorld() should return the string "Hello, world!".')
+  })
+
+  checkModuleForFunctions('104-strings.js', module, ['helloName'])
+  it('"helloName" function', function () {
+    assert(module.helloName('Bob') === 'Hello, Bob!', 'helloName("Bob") should return the string "Hello, Bob!".')
+    assert(module.helloName('') === 'Hello, !', 'helloName("") should return the string "Hello, !".')
+  })
+
+  checkModuleForFunctions('104-strings.js', module, ['abstractLength'])
+  it('"abstractLength" function', function () {
+    assert(module.abstractLength() === tarPitAbstract.length, 'abstractLength() should return the length of the "tarPitAbstract" string.')
+    assert.ok(functionContainsText(fileContents, 'abstractLength', 'tarPitAbstract.length'), 'abstractLength() should use the .length property')
+  })
+
+  const chorus = 'Who let the dogs out?'
+  checkModuleForFunctions('104-strings.js', module, ['makeLoud'])
+  it('"makeLoud" function', function () {
+    assert(module.makeLoud() === chorus.toUpperCase(), 'makeLoud() should return the string "' + chorus.toUpperCase() + '"')
+    assert.ok(functionContainsText(fileContents, 'makeLoud', '.toUpperCase()'), 'makeLoud() should use the .toUpperCase() method')
+  })
+
+  checkModuleForFunctions('104-strings.js', module, ['makeQuiet'])
+  it('"makeQuiet" function', function () {
+    assert(module.makeQuiet('ABC') === 'abc', 'makeQuiet("ABC") should return the string "abc"')
+    assert(module.makeQuiet('abc') === 'abc', 'makeQuiet("abc") should return the string "abc"')
+    assert(module.makeQuiet('XyZ') === 'xyz', 'makeQuiet("XyZ") should return the string "xyz"')
+    assert(module.makeQuiet('AAA bbb CCC') === 'aaa bbb ccc', 'makeQuiet("AAA bbb CCC") should return the string "aaa bbb ccc"')
+    assert(module.makeQuiet('') === '', 'makeQuiet("") should return the string ""')
+    assert.ok(functionContainsText(fileContents, 'makeQuiet', '.toLowerCase()'), 'makeQuiet() should use the .toLowerCase() method')
+  })
+}
+
+// -----------------------------------------------------------------------------
 // Run the tests
 // -----------------------------------------------------------------------------
 
@@ -337,6 +408,11 @@ describe('JavaScript Syntax', checkJSSyntax)
 if (allSyntaxValid) {
   createModuleFiles()
   // describe('Make Some Numbers', check100)
-  describe('Undefined, booleans, null', check102)
+  // describe('Undefined, booleans, null', check102)
+  // describe('Strings', check104)
+  // TODO: Math
+  // TODO: Arrays
+  // TODO: Objects
+  // TODO: functions default parameters?
   destroyModuleFiles()
 }
