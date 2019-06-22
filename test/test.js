@@ -552,6 +552,69 @@ function check108 () {
 }
 
 // -----------------------------------------------------------------------------
+// 200 - Objects
+// -----------------------------------------------------------------------------
+
+function check200 () {
+  const moduleFileName = '../' + moduleName('exercises/200-objects.js')
+  let module = null
+  try {
+    module = require(moduleFileName)
+  } catch (e) { }
+
+  if (!module) {
+    it('Unable to read ' + moduleFileName, function () {
+      assert.fail('Unable to read ' + moduleFileName)
+    })
+    return
+  }
+
+  const fileContents = fs.readFileSync('exercises/200-objects.js', utf8)
+  const syntaxTree = esprima.parseScript(fileContents)
+
+  checkForFunction('200-objects.js', module, 'getValue')
+  it('"getValue" function', function () {
+    var user = {
+      "id": 1,
+      "first_name": "Wittie",
+      "last_name": "Armall",
+      "email": "warmall0@earthlink.net",
+      "gender": "Male",
+      "ip_address": "60.13.194.247"
+    }
+    assert.deepStrictEqual(module.getValue(user, "id"), 1, 'tgetValue(user, "id") should return 1')
+    assert.deepStrictEqual(module.getValue(user, "email"), "warmall0@earthlink.net", 'getValue(user, "email") should return "warmall0@earthlink.net"')
+  })
+
+  checkForFunction('200-objects.js', module, 'addProp')
+  it('"addProp" function', function () {
+    var user2 = {
+        "id": 2,
+        "first_name": "Allys",
+        "last_name": "Maceur",
+        "email": "amaceur1@youtube.com",
+        "gender": "Female",
+        "ip_address": "190.63.227.21"
+    }
+    assert.deepStrictEqual(module.addProp(user2, "pet", "cat")["pet"], "cat", '(addProp, "pet", "cat") should add a new key value pair')
+  })
+
+  checkForFunction('200-objects.js', module, 'getKeys')
+  it('"getKeys" function', function () {
+    var user3 = {
+      "id": 3,
+      "first_name": "Micah",
+      "last_name": "Cockney",
+      "email": "mcockney2@cafepress.com",
+      "gender": "Male",
+      "ip_address": "44.60.248.14"
+    }
+    assert.deepStrictEqual(Array.isArray(module.addProp(user3)), true, 'addProp(user3) should return an Array')
+    assert.deepStrictEqual(module.addProp(user3).length, 6, 'addProp(user3) should return an Array with 5 keys')
+  })
+}
+
+// -----------------------------------------------------------------------------
 // Run the tests
 // -----------------------------------------------------------------------------
 
@@ -565,7 +628,7 @@ if (allSyntaxValid) {
   describe('Strings', check104)
   describe('Math', check106)
   describe('Arrays', check108)
-  // TODO: Objects
+  describe('Objects', check200)
   // TODO: Boolean Operations
   // TODO: adventures in concatenation
   destroyModuleFiles()
