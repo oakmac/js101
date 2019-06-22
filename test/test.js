@@ -482,6 +482,76 @@ function check106 () {
 }
 
 // -----------------------------------------------------------------------------
+// 108 - Arrays
+// -----------------------------------------------------------------------------
+
+function check108 () {
+  const moduleFileName = '../' + moduleName('exercises/108-arrays.js')
+  let module = null
+  try {
+    module = require(moduleFileName)
+  } catch (e) { }
+
+  if (!module) {
+    it('Unable to read ' + moduleFileName, function () {
+      assert.fail('Unable to read ' + moduleFileName)
+    })
+    return
+  }
+
+  const fileContents = fs.readFileSync('exercises/108-arrays.js', utf8)
+  const syntaxTree = esprima.parseScript(fileContents)
+
+  checkForFunction('108-arrays.js', module, 'threeFruits')
+  const threeFruits = ['Apple', 'Banana', 'Cherry']
+  it('"threeFruits" function', function () {
+    assert.deepStrictEqual(module.threeFruits(), threeFruits, 'threeFruits() should return the array of fruit strings.')
+  })
+
+  checkForFunction('108-arrays.js', module, 'multipleTypes')
+  const diverseArray = ['Skateboard', null, 8.75, 'Eiffel Tower', 44, 7, true, null]
+  it('"multipleTypes" function', function () {
+    assert.deepStrictEqual(module.multipleTypes(), diverseArray, 'multipleTypes() should return the array of multiple types.')
+  })
+
+  checkForFunction('108-arrays.js', module, 'indexAccess')
+  it('"indexAccess" function', function () {
+    assert.deepStrictEqual(module.indexAccess(), 'Jimmy', 'indexAccess() should return the the third item in the array "people".')
+    // TODO: make sure they used array index access here instead of just returning the string 'Jimmy'
+  })
+
+  checkForFunction('108-arrays.js', module, 'useLength')
+  it('"useLength" function', function () {
+    assert.deepStrictEqual(module.useLength(), 3, 'useLength() should return 3.')
+    // TODO: make sure they used the .length property here
+  })
+
+  checkForFunction('108-arrays.js', module, 'usePush')
+  it('"usePush" function', function () {
+    assert.deepStrictEqual(module.usePush(), ['a', 'b', 'c', 'd'], 'usePush() should return the array ["a", "b", "c", "d"].')
+    // TODO: make sure they used the .push() method here
+  })
+
+  checkForFunction('108-arrays.js', module, 'usePop')
+  it('"usePop" function', function () {
+    assert.deepStrictEqual(module.usePop(), ['a', 'b'], 'usePop() should return the array ["a", "b"].')
+    // TODO: make sure they used the .pop() method here
+  })
+
+  checkForFunction('108-arrays.js', module, 'useIndexOf')
+  it('"useIndexOf" function', function () {
+    assert.deepStrictEqual(module.useIndexOf(), 3, 'useIndexOf() should return 3.')
+    // TODO: make sure they used the .indexOf() method here
+  })
+
+  checkForFunction('108-arrays.js', module, 'useJoin')
+  it('"useJoin" function', function () {
+    assert.deepStrictEqual(module.useJoin(), 'a-b-c-d-e-f', 'useJoin() should return "a-b-c-d-e-f".')
+    // TODO: make sure they used the .join() method here
+  })
+}
+
+// -----------------------------------------------------------------------------
 // Run the tests
 // -----------------------------------------------------------------------------
 
@@ -494,8 +564,9 @@ if (allSyntaxValid) {
   // describe('Undefined, booleans, null', check102)
   // describe('Strings', check104)
   // describe('Math', check106)
-  // TODO: Arrays
+  describe('Arrays', check108)
   // TODO: Objects
   // TODO: Boolean Operations
+  // TODO: adventures in concatenation
   destroyModuleFiles()
 }
