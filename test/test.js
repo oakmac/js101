@@ -405,6 +405,83 @@ function check104 () {
 }
 
 // -----------------------------------------------------------------------------
+// 106 - Math
+// -----------------------------------------------------------------------------
+
+function check106 () {
+  const moduleFileName = '../' + moduleName('exercises/106-math.js')
+  let module = null
+  try {
+    module = require(moduleFileName)
+  } catch (e) { }
+
+  if (!module) {
+    it('Unable to read ' + moduleFileName, function () {
+      assert.fail('Unable to read ' + moduleFileName)
+    })
+    return
+  }
+
+  const fileContents = fs.readFileSync('exercises/106-math.js', utf8)
+  const syntaxTree = esprima.parseScript(fileContents)
+
+  checkForFunction('106-math.js', module, 'add99')
+  it('"add99" function', function () {
+    assert(module.add99(1) === 100, 'add99(1) should return 100.')
+    assert(module.add99(-56) === 43, 'add99(-56) should return 43.')
+    assert(module.add99(99) === 198, 'add99(99) should return 198.')
+    assert(module.add99(0) === 99, 'add99(0) should return 99.')
+    assert(module.add99(3.14) === 102.14, 'add99(3.14) should return 102.14.')
+  })
+
+  checkForFunction('106-math.js', module, 'sum')
+  it('"sum" function', function () {
+    assert(module.sum(1, 1) === 2, 'sum(1, 1) should return 2')
+    assert(module.sum(0, 0) === 0, 'sum(0, 0) should return 0')
+    assert(module.sum(99, 1) === 100, 'sum(99, 1) should return 100')
+    assert(module.sum(3.14, 0) === 3.14, 'sum(3.14, 0) should return 3.14')
+    assert(module.sum(3.14, 1000) === 1003.14, 'sum(3.14, 1000) should return 1003.14')
+  })
+
+  checkForFunction('106-math.js', module, 'difference')
+  it('"difference" function', function () {
+    assert(module.difference(1, 1) === 0, 'difference(1, 1) should return 0')
+    assert(module.difference(0, 0) === 0, 'difference(0, 0) should return 0')
+    assert(module.difference(99, 1) === 98, 'difference(99, 1) should return 98')
+    assert(module.difference(3.14, 0) === 3.14, 'difference(3.14, 0) should return 3.14')
+    assert(module.difference(3.14, 1000) === -996.86, 'difference(3.14, 1000) should return -996.86')
+  })
+
+  checkForFunction('106-math.js', module, 'multiply')
+  it('"multiply" function', function () {
+    assert(module.multiply(1, 1) === 1, 'multiply(1, 1) should return 1')
+    assert(module.multiply(0, 0) === 0, 'multiply(0, 0) should return 0')
+    assert(module.multiply(99, 1) === 99, 'multiply(99, 1) should return 99')
+    assert(module.multiply(3.14, 0) === 0, 'multiply(3.14, 0) should return 0')
+    assert(module.multiply(3.14, 1000) === 3140, 'multiply(3.14, 1000) should return 3140')
+  })
+
+  checkForFunction('106-math.js', module, 'divide')
+  it('"divide" function', function () {
+    assert(module.divide(1, 1) === 1, 'divide(1, 1) should return 1')
+    assert(Number.isNaN(module.divide(0, 0)), 'divide(0, 0) should return NaN (not a number)')
+    assert(module.divide(99, 1) === 99, 'divide(99, 1) should return 99')
+    assert(module.divide(3.14, 0) === Infinity, 'divide(3.14, 0) should return Infinity')
+    assert(module.divide(3.14, 1000) === 0.00314, 'divide(3.14, 1000) should return 0.00314')
+  })
+
+  checkForFunction('106-math.js', module, 'mod')
+  it('"mod" function', function () {
+    assert(module.mod(1, 1) === 0, 'mod(1, 1) should return 0')
+    assert(Number.isNaN(module.mod(0, 0)), 'mod(0, 0) should return NaN (not a number)')
+    assert(module.mod(99, 1) === 0, 'mod(99, 1) should return 0')
+    assert(module.mod(99, 22) === 11, 'mod(99, 22) should return 11')
+    assert(Number.isNaN(module.mod(3.14, 0)), 'mod(3.14, 0) should return NaN (not a number)')
+    assert(module.mod(3.14, 1000) === 3.14, 'mod(3.14, 1000) should return 3.14')
+  })
+}
+
+// -----------------------------------------------------------------------------
 // Run the tests
 // -----------------------------------------------------------------------------
 
@@ -413,12 +490,12 @@ describe('JavaScript Syntax', checkJSSyntax)
 // only run the test suite if there were no syntax errors
 if (allSyntaxValid) {
   createModuleFiles()
-  describe('Numbers', check100)
-  describe('Undefined, booleans, null', check102)
-  describe('Strings', check104)
-  // TODO: Math
+  // describe('Numbers', check100)
+  // describe('Undefined, booleans, null', check102)
+  // describe('Strings', check104)
+  // describe('Math', check106)
   // TODO: Arrays
   // TODO: Objects
-  // TODO: functions default parameters?
+  // TODO: Boolean Operations
   destroyModuleFiles()
 }
