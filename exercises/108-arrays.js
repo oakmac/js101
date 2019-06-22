@@ -4,7 +4,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// You can create an array using the [] characters.
+// You can create an Array using the [] characters.
 // Note the commas between the items.
 // Return the array of fruit strings in the function below.
 

@@ -47,12 +47,3 @@ function makeLoud () {
 function makeQuiet (str) {
 
 }
-
-
-
-
-// TODO:
-// multiple concatenation
-// .indexOf()
-// .substring()
-// concat a string with a number

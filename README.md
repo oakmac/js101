@@ -2,7 +2,12 @@
 
 Programming exercises for a beginning JavaScript programmer.
 
-These exercises focus on basic syntax: functions, numbers, strings, Arrays, Objects.
+These exercises focus on basic syntax and core library functions for:
+
+- Functions
+- Numbers
+- Strings
+- Arrays
 
 ## Install
 

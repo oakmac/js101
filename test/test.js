@@ -560,10 +560,10 @@ describe('JavaScript Syntax', checkJSSyntax)
 // only run the test suite if there were no syntax errors
 if (allSyntaxValid) {
   createModuleFiles()
-  // describe('Numbers', check100)
-  // describe('Undefined, booleans, null', check102)
-  // describe('Strings', check104)
-  // describe('Math', check106)
+  describe('Numbers', check100)
+  describe('Undefined, booleans, null', check102)
+  describe('Strings', check104)
+  describe('Math', check106)
   describe('Arrays', check108)
   // TODO: Objects
   // TODO: Boolean Operations
