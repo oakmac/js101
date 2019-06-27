@@ -464,6 +464,10 @@ function check106 () {
   checkForFunction('106-math.js', module, 'divide')
   it('"divide" function', function () {
     assert(module.divide(1, 1) === 1, 'divide(1, 1) should return 1')
+    assert(module.divide(4, 2) === 2, 'divide(4, 2) should return 2')
+    assert(module.divide(100, 20) === 5, 'divide(100, 20) should return 5')
+    assert(module.divide(1, 2) === 0.5, 'divide(1, 2) should return 0.5')
+    assert(module.divide(4.2, 2.1) === 2, 'divide(4.2, 2.1) should return 2')
     assert(Number.isNaN(module.divide(0, 0)), 'divide(0, 0) should return NaN (not a number)')
     assert(module.divide(99, 1) === 99, 'divide(99, 1) should return 99')
     assert(module.divide(3.14, 0) === Infinity, 'divide(3.14, 0) should return Infinity')
