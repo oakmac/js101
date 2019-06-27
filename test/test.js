@@ -132,14 +132,14 @@ function fnContainVariable (syntaxTree, fnName, varName) {
 }
 
 // does "fnName" contain "expressionType"?
-function functionContainStatement (syntaxTree, fnName, expressionType) {
-  const fnBodyStatements = getFnBody(syntaxTree, fnName)
-  if (!fnBodyStatements) return false
-
-  // NOTE: this is a total hack, but works fine for this use case
-  const json = JSON.stringify(fnBodyStatements)
-  return json.includes('"type":"' + expressionType + '"')
-}
+// function functionContainStatement (syntaxTree, fnName, expressionType) {
+//   const fnBodyStatements = getFnBody(syntaxTree, fnName)
+//   if (!fnBodyStatements) return false
+//
+//   // NOTE: this is a total hack, but works fine for this use case
+//   const json = JSON.stringify(fnBodyStatements)
+//   return json.includes('"type":"' + expressionType + '"')
+// }
 
 function checkFileSyntax (f) {
   const fileContents = fs.readFileSync(f, utf8)
@@ -203,18 +203,9 @@ function isArray (a) {
 // Assertion Utils
 // -----------------------------------------------------------------------------
 
-function checkForFunction (filename, module, fnName) {
+function checkForFunction (filename, theirModule, fnName) {
   it(filename + ' should contain a function "' + fnName + '"', function () {
-    assert(isFn(module[fnName]), 'function "' + fnName + '" not found in exercises/' + filename)
-  })
-}
-
-function checkModuleForFunctions (filename, module, fns) {
-  const msg = filename + ' should have ' + fns.length + ' functions: ' + fns.join(', ')
-  it(msg, function () {
-    fns.forEach(function (fnName) {
-      assert(isFn(module[fnName]), 'function "' + fnName + '" not found')
-    })
+    assert(isFn(theirModule[fnName]), 'function "' + fnName + '" not found in exercises/' + filename)
   })
 }
 
@@ -243,6 +234,7 @@ function functionContainsText (moduleText, fnName, expressionText) {
 // -----------------------------------------------------------------------------
 
 function check100 () {
+  const filename = '100-numbers.js'
   const moduleFileName = '../' + moduleName('exercises/100-numbers.js')
   let module = null
   try {
@@ -259,27 +251,29 @@ function check100 () {
   const fileContents = fs.readFileSync('exercises/100-numbers.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkModuleForFunctions('100-numbers.js', module, ['makeANumber', 'makeAnInteger', 'makeAFloat', 'makeZero'])
-
-  it('"makeANumber" function', function () {
+  checkForFunction(filename, module, 'makeANumber')
+  it('"makeANumber" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeANumber', 'myNum')
     assertReturnsVariable(syntaxTree, 'makeANumber', 'myNum')
     assert(isNumber(module.makeANumber()), 'makeANumber() should return a valid JavaScript number.')
   })
 
-  it('"makeAnInteger" function', function () {
+  checkForFunction(filename, module, 'makeAnInteger')
+  it('"makeAnInteger" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeAnInteger', 'myInt')
     assertReturnsVariable(syntaxTree, 'makeAnInteger', 'myInt')
     assert(Number.isInteger(module.makeAnInteger()), 'makeAnInteger() should return a integer.')
   })
 
-  it('"makeAFloat" function', function () {
+  checkForFunction(filename, module, 'makeAFloat')
+  it('"makeAFloat" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeAFloat', 'myFloat')
     assertReturnsVariable(syntaxTree, 'makeAFloat', 'myFloat')
     assert(isFloat(module.makeAFloat()), 'makeAFloat() should return a float.')
   })
 
-  it('"makeZero" function', function () {
+  checkForFunction(filename, module, 'makeZero')
+  it('"makeZero" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeZero', 'zilch')
     assertReturnsVariable(syntaxTree, 'makeZero', 'zilch')
     assert(module.makeZero() === 0, 'makeZero() should return the number 0.')
@@ -291,6 +285,7 @@ function check100 () {
 // -----------------------------------------------------------------------------
 
 function check102 () {
+  const filename = '102-undefined-booleans-null.js'
   const moduleFileName = '../' + moduleName('exercises/102-undefined-booleans-null.js')
   let module = null
   try {
@@ -307,36 +302,36 @@ function check102 () {
   const fileContents = fs.readFileSync('exercises/102-undefined-booleans-null.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkForFunction('102-undefined-booleans-null.js', module, 'makeNothing')
-  it('"makeNothing" function', function () {
+  checkForFunction(filename, module, 'makeNothing')
+  it('"makeNothing" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeNothing', 'huh')
     assertReturnsVariable(syntaxTree, 'makeNothing', 'huh')
     assert(undefined === module.makeNothing(), 'makeNothing() should return undefined.')
   })
 
-  checkForFunction('102-undefined-booleans-null.js', module, 'makeBoolean')
-  it('"makeBoolean" function', function () {
+  checkForFunction(filename, module, 'makeBoolean')
+  it('"makeBoolean" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeBoolean', 'myBool')
     assertReturnsVariable(syntaxTree, 'makeBoolean', 'myBool')
     assert(isBoolean(module.makeBoolean()), 'makeBoolean() should return a boolean value (true or false).')
   })
 
-  checkForFunction('102-undefined-booleans-null.js', module, 'makeTrue')
-  it('"makeTrue" function', function () {
+  checkForFunction(filename, module, 'makeTrue')
+  it('"makeTrue" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeTrue', 'yup')
     assertReturnsVariable(syntaxTree, 'makeTrue', 'yup')
     assert(module.makeTrue() === true, 'makeTrue() should return the boolean value true.')
   })
 
-  checkForFunction('102-undefined-booleans-null.js', module, 'makeFalse')
-  it('"makeFalse" function', function () {
+  checkForFunction(filename, module, 'makeFalse')
+  it('"makeFalse" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeFalse', 'nope')
     assertReturnsVariable(syntaxTree, 'makeFalse', 'nope')
     assert(module.makeFalse() === false, 'makeFalse() should return the boolean value false.')
   })
 
-  checkForFunction('102-undefined-booleans-null.js', module, 'makeNull')
-  it('"makeNull" function', function () {
+  checkForFunction(filename, module, 'makeNull')
+  it('"makeNull" function implementation', function () {
     assertContainsVariable(syntaxTree, 'makeNull', 'nothingMuch')
     assertReturnsVariable(syntaxTree, 'makeNull', 'nothingMuch')
     assert(module.makeNull() === null, 'makeNull() should return null.')
@@ -353,6 +348,7 @@ const tarPitAbstract = 'Complexity is the single major difficulty in the success
   'To make things more concrete we then give an outline for a potential complexity-minimizing approach based on functional programming and Codd’s relational model of data.'
 
 function check104 () {
+  const filename = '104-strings.js'
   const moduleFileName = '../' + moduleName('exercises/104-strings.js')
   let module = null
   try {
@@ -369,32 +365,32 @@ function check104 () {
   const fileContents = fs.readFileSync('exercises/104-strings.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkForFunction('104-strings.js', module, 'helloWorld')
-  it('"helloWorld" function', function () {
+  checkForFunction(filename, module, 'helloWorld')
+  it('"helloWorld" function implementation', function () {
     assert(module.helloWorld() === 'Hello, world!', 'helloWorld() should return the string "Hello, world!".')
   })
 
-  checkForFunction('104-strings.js', module, 'helloName')
-  it('"helloName" function', function () {
+  checkForFunction(filename, module, 'helloName')
+  it('"helloName" function implementation', function () {
     assert(module.helloName('Bob') === 'Hello, Bob!', 'helloName("Bob") should return the string "Hello, Bob!".')
     assert(module.helloName('') === 'Hello, !', 'helloName("") should return the string "Hello, !".')
   })
 
-  checkForFunction('104-strings.js', module, 'abstractLength')
-  it('"abstractLength" function', function () {
+  checkForFunction(filename, module, 'abstractLength')
+  it('"abstractLength" function implementation', function () {
     assert(module.abstractLength() === tarPitAbstract.length, 'abstractLength() should return the length of the "tarPitAbstract" string.')
     assert.ok(functionContainsText(fileContents, 'abstractLength', 'tarPitAbstract.length'), 'abstractLength() should use the .length property')
   })
 
+  checkForFunction(filename, module, 'makeLoud')
   const chorus = 'Who let the dogs out?'
-  checkForFunction('104-strings.js', module, 'makeLoud')
-  it('"makeLoud" function', function () {
+  it('"makeLoud" function implementation', function () {
     assert(module.makeLoud() === chorus.toUpperCase(), 'makeLoud() should return the string "' + chorus.toUpperCase() + '"')
     assert.ok(functionContainsText(fileContents, 'makeLoud', '.toUpperCase()'), 'makeLoud() should use the .toUpperCase() method')
   })
 
-  checkForFunction('104-strings.js', module, 'makeQuiet')
-  it('"makeQuiet" function', function () {
+  checkForFunction(filename, module, 'makeQuiet')
+  it('"makeQuiet" function implementation', function () {
     assert(module.makeQuiet('ABC') === 'abc', 'makeQuiet("ABC") should return the string "abc"')
     assert(module.makeQuiet('abc') === 'abc', 'makeQuiet("abc") should return the string "abc"')
     assert(module.makeQuiet('XyZ') === 'xyz', 'makeQuiet("XyZ") should return the string "xyz"')
@@ -409,6 +405,7 @@ function check104 () {
 // -----------------------------------------------------------------------------
 
 function check106 () {
+  const filename = '106-math.js'
   const moduleFileName = '../' + moduleName('exercises/106-math.js')
   let module = null
   try {
@@ -425,8 +422,8 @@ function check106 () {
   const fileContents = fs.readFileSync('exercises/106-math.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkForFunction('106-math.js', module, 'add99')
-  it('"add99" function', function () {
+  checkForFunction(filename, module, 'add99')
+  it('"add99" function implementation', function () {
     assert(module.add99(1) === 100, 'add99(1) should return 100.')
     assert(module.add99(-56) === 43, 'add99(-56) should return 43.')
     assert(module.add99(99) === 198, 'add99(99) should return 198.')
@@ -434,8 +431,8 @@ function check106 () {
     assert(module.add99(3.14) === 102.14, 'add99(3.14) should return 102.14.')
   })
 
-  checkForFunction('106-math.js', module, 'sum')
-  it('"sum" function', function () {
+  checkForFunction(filename, module, 'sum')
+  it('"sum" function implementation', function () {
     assert(module.sum(1, 1) === 2, 'sum(1, 1) should return 2')
     assert(module.sum(0, 0) === 0, 'sum(0, 0) should return 0')
     assert(module.sum(99, 1) === 100, 'sum(99, 1) should return 100')
@@ -443,8 +440,8 @@ function check106 () {
     assert(module.sum(3.14, 1000) === 1003.14, 'sum(3.14, 1000) should return 1003.14')
   })
 
-  checkForFunction('106-math.js', module, 'difference')
-  it('"difference" function', function () {
+  checkForFunction(filename, module, 'difference')
+  it('"difference" function implementation', function () {
     assert(module.difference(1, 1) === 0, 'difference(1, 1) should return 0')
     assert(module.difference(0, 0) === 0, 'difference(0, 0) should return 0')
     assert(module.difference(99, 1) === 98, 'difference(99, 1) should return 98')
@@ -452,8 +449,8 @@ function check106 () {
     assert(module.difference(3.14, 1000) === -996.86, 'difference(3.14, 1000) should return -996.86')
   })
 
-  checkForFunction('106-math.js', module, 'multiply')
-  it('"multiply" function', function () {
+  checkForFunction(filename, module, 'multiply')
+  it('"multiply" function implementation', function () {
     assert(module.multiply(1, 1) === 1, 'multiply(1, 1) should return 1')
     assert(module.multiply(0, 0) === 0, 'multiply(0, 0) should return 0')
     assert(module.multiply(99, 1) === 99, 'multiply(99, 1) should return 99')
@@ -461,8 +458,8 @@ function check106 () {
     assert(module.multiply(3.14, 1000) === 3140, 'multiply(3.14, 1000) should return 3140')
   })
 
-  checkForFunction('106-math.js', module, 'divide')
-  it('"divide" function', function () {
+  checkForFunction(filename, module, 'divide')
+  it('"divide" function implementation', function () {
     assert(module.divide(1, 1) === 1, 'divide(1, 1) should return 1')
     assert(module.divide(4, 2) === 2, 'divide(4, 2) should return 2')
     assert(module.divide(100, 20) === 5, 'divide(100, 20) should return 5')
@@ -474,8 +471,8 @@ function check106 () {
     assert(module.divide(3.14, 1000) === 0.00314, 'divide(3.14, 1000) should return 0.00314')
   })
 
-  checkForFunction('106-math.js', module, 'mod')
-  it('"mod" function', function () {
+  checkForFunction(filename, module, 'mod')
+  it('"mod" function implementation', function () {
     assert(module.mod(1, 1) === 0, 'mod(1, 1) should return 0')
     assert(Number.isNaN(module.mod(0, 0)), 'mod(0, 0) should return NaN (not a number)')
     assert(module.mod(99, 1) === 0, 'mod(99, 1) should return 0')
@@ -490,6 +487,7 @@ function check106 () {
 // -----------------------------------------------------------------------------
 
 function check108 () {
+  const filename = '108-arrays.js'
   const moduleFileName = '../' + moduleName('exercises/108-arrays.js')
   let module = null
   try {
@@ -506,50 +504,50 @@ function check108 () {
   const fileContents = fs.readFileSync('exercises/108-arrays.js', utf8)
   const syntaxTree = esprima.parseScript(fileContents)
 
-  checkForFunction('108-arrays.js', module, 'threeFruits')
+  checkForFunction(filename, module, 'threeFruits')
   const threeFruits = ['Apple', 'Banana', 'Cherry']
-  it('"threeFruits" function', function () {
+  it('"threeFruits" function implementation', function () {
     assert.deepStrictEqual(module.threeFruits(), threeFruits, 'threeFruits() should return the array of fruit strings.')
   })
 
-  checkForFunction('108-arrays.js', module, 'multipleTypes')
+  checkForFunction(filename, module, 'multipleTypes')
   const diverseArray = ['Skateboard', null, 8.75, 'Eiffel Tower', 44, 7, true, null]
-  it('"multipleTypes" function', function () {
+  it('"multipleTypes" function implementation', function () {
     assert.deepStrictEqual(module.multipleTypes(), diverseArray, 'multipleTypes() should return the array of multiple types.')
   })
 
-  checkForFunction('108-arrays.js', module, 'indexAccess')
-  it('"indexAccess" function', function () {
+  checkForFunction(filename, module, 'indexAccess')
+  it('"indexAccess" function implementation', function () {
     assert.deepStrictEqual(module.indexAccess(), 'Jimmy', 'indexAccess() should return the the third item in the array "people".')
     // TODO: make sure they used array index access here instead of just returning the string 'Jimmy'
   })
 
-  checkForFunction('108-arrays.js', module, 'useLength')
-  it('"useLength" function', function () {
+  checkForFunction(filename, module, 'useLength')
+  it('"useLength" function implementation', function () {
     assert.deepStrictEqual(module.useLength(), 3, 'useLength() should return 3.')
     // TODO: make sure they used the .length property here
   })
 
-  checkForFunction('108-arrays.js', module, 'usePush')
-  it('"usePush" function', function () {
+  checkForFunction(filename, module, 'usePush')
+  it('"usePush" function implementation', function () {
     assert.deepStrictEqual(module.usePush(), ['a', 'b', 'c', 'd'], 'usePush() should return the array ["a", "b", "c", "d"].')
     // TODO: make sure they used the .push() method here
   })
 
-  checkForFunction('108-arrays.js', module, 'usePop')
-  it('"usePop" function', function () {
+  checkForFunction(filename, module, 'usePop')
+  it('"usePop" function implementation', function () {
     assert.deepStrictEqual(module.usePop(), ['a', 'b'], 'usePop() should return the array ["a", "b"].')
     // TODO: make sure they used the .pop() method here
   })
 
-  checkForFunction('108-arrays.js', module, 'useIndexOf')
-  it('"useIndexOf" function', function () {
+  checkForFunction(filename, module, 'useIndexOf')
+  it('"useIndexOf" function implementation', function () {
     assert.deepStrictEqual(module.useIndexOf(), 3, 'useIndexOf() should return 3.')
     // TODO: make sure they used the .indexOf() method here
   })
 
-  checkForFunction('108-arrays.js', module, 'useJoin')
-  it('"useJoin" function', function () {
+  checkForFunction(filename, module, 'useJoin')
+  it('"useJoin" function implementation', function () {
     assert.deepStrictEqual(module.useJoin(), 'a-b-c-d-e-f', 'useJoin() should return "a-b-c-d-e-f".')
     // TODO: make sure they used the .join() method here
   })
