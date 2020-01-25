@@ -35,7 +35,7 @@ let allSyntaxValid = true
 
 // returns an array of the top-level function names from a script
 function getTopLevelFunctions (syntaxTree) {
-  let fnNames = []
+  const fnNames = []
   for (let i = 0; i < syntaxTree.body.length; i++) {
     const itm = syntaxTree.body[i]
     if (itm.type === 'FunctionDeclaration') {
@@ -200,12 +200,12 @@ function isArray (a) {
 }
 
 function countKeys (o) {
-  let keys = []
+  const keys = []
   let k
 
   for (k in o) {
     if (Object.prototype.hasOwnProperty.call(o, k)) {
-        keys.push(k)
+      keys.push(k)
     }
   }
   return keys.length
@@ -588,13 +588,13 @@ function check110 () {
   const syntaxTree = esprima.parseScript(fileContents)
 
   checkForFunction(filename, module, 'threeNumbers')
-  const numbers = {numberOne: 1, numberTwo: 2, numberThree: 3}
+  const numbers = { numberOne: 1, numberTwo: 2, numberThree: 3 }
   it('"threeNumbers" function implementation', function () {
     assert.deepStrictEqual(module.threeNumbers(), numbers, 'threeFruits() should return the object of numbers.')
   })
 
   checkForFunction(filename, module, 'manyTypes')
-  const diverseObject = {name: "banana", count: 42, delicious: true}
+  const diverseObject = { name: 'banana', count: 42, delicious: true }
   it('"manyTypes" function implementation', function () {
     assert.deepStrictEqual(module.manyTypes(), diverseObject, 'manyTypes() should return the Object of multiple types.')
   })
@@ -607,7 +607,7 @@ function check110 () {
 
   checkForFunction(filename, module, 'addKey')
   it('"addKey" function implementation', function () {
-      const bestFruit = {name: "banana", count: 42, delicious: true, color:"yellow"}
+    const bestFruit = { name: 'banana', count: 42, delicious: true, color: 'yellow' }
     assert.deepStrictEqual(module.addKey(), bestFruit, 'addKey() should return bestFruit including a "color" property.')
     // TODO: make sure they added {color:"yellow"} to bestFruit
   })
@@ -621,13 +621,13 @@ function check110 () {
 
   checkForFunction(filename, module, 'nestedArray')
   it('"nestedArray" function implementation', function () {
-    assert.deepStrictEqual(module.nestedArray(), "salmon", 'nestedArray() should return the second item of nested array favoriteFoods. Remember Arrays start counting at 0')
+    assert.deepStrictEqual(module.nestedArray(), 'salmon', 'nestedArray() should return the second item of nested array favoriteFoods. Remember Arrays start counting at 0')
     // TODO: make sure they returned the reference, not "salmon".
   })
 
   checkForFunction(filename, module, 'dotNotation')
   it('"dotNotation" function implementation', function () {
-    assert.deepStrictEqual(module.dotNotation(), "Susan", 'dotNotation() should return the name of bootCampStudent')
+    assert.deepStrictEqual(module.dotNotation(), 'Susan', 'dotNotation() should return the name of bootcampInstructor')
     // TODO: make sure they returned the reference, not "Susan".
     // TODO: make sure they used dot notation.
   })
