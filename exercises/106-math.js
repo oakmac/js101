@@ -29,9 +29,6 @@
 // Create a function "divide" that takes 2 number arguments and returns the
 // division of the first argument by the second.
 
-function divide (a, b) {
-  return a / b
-}
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // The modulus operator (%) works like remainder from division.
