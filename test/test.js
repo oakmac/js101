@@ -199,6 +199,18 @@ function isArray (a) {
   return Array.isArray(a)
 }
 
+function countKeys (o) {
+  let keys = []
+  let k
+
+  for (k in o) {
+    if (Object.prototype.hasOwnProperty.call(o, k)) {
+        keys.push(k)
+    }
+  }
+  return keys.length
+}
+
 // -----------------------------------------------------------------------------
 // Assertion Utils
 // -----------------------------------------------------------------------------
@@ -518,7 +530,7 @@ function check108 () {
 
   checkForFunction(filename, module, 'indexAccess')
   it('"indexAccess" function implementation', function () {
-    assert.deepStrictEqual(module.indexAccess(), 'Jimmy', 'indexAccess() should return the the third item in the array "people".')
+    assert.deepStrictEqual(module.indexAccess(), 'Jimmy', 'indexAccess() should return the third item in the array "people".')
     // TODO: make sure they used array index access here instead of just returning the string 'Jimmy'
   })
 
@@ -554,6 +566,74 @@ function check108 () {
 }
 
 // -----------------------------------------------------------------------------
+// 110 - Objects
+// -----------------------------------------------------------------------------
+
+function check110 () {
+  const filename = '110-objects.js'
+  const moduleFileName = '../' + moduleName('exercises/110-objects.js')
+  let module = null
+  try {
+    module = require(moduleFileName)
+  } catch (e) { }
+
+  if (!module) {
+    it('Unable to read ' + moduleFileName, function () {
+      assert.fail('Unable to read ' + moduleFileName)
+    })
+    return
+  }
+
+  const fileContents = fs.readFileSync('exercises/110-objects.js', utf8)
+  const syntaxTree = esprima.parseScript(fileContents)
+
+  checkForFunction(filename, module, 'threeNumbers')
+  const numbers = {numberOne: 1, numberTwo: 2, numberThree: 3}
+  it('"threeNumbers" function implementation', function () {
+    assert.deepStrictEqual(module.threeNumbers(), numbers, 'threeFruits() should return the object of numbers.')
+  })
+
+  checkForFunction(filename, module, 'manyTypes')
+  const diverseObject = {name: "banana", count: 42, delicious: true}
+  it('"manyTypes" function implementation', function () {
+    assert.deepStrictEqual(module.manyTypes(), diverseObject, 'manyTypes() should return the Object of multiple types.')
+  })
+
+  checkForFunction(filename, module, 'keyAccess')
+  it('"keyAccess" function implementation', function () {
+    assert.deepStrictEqual(module.keyAccess(), 'banana', 'keyAccess() should return the Object property called "name"')
+    // TODO: make sure they returned the object["name"] with bracket syntax
+  })
+
+  checkForFunction(filename, module, 'addKey')
+  it('"addKey" function implementation', function () {
+      const bestFruit = {name: "banana", count: 42, delicious: true, color:"yellow"}
+    assert.deepStrictEqual(module.addKey(), bestFruit, 'addKey() should return bestFruit including a "color" property.')
+    // TODO: make sure they added {color:"yellow"} to bestFruit
+  })
+
+  checkForFunction(filename, module, 'largeObject')
+  it('"largeObject" function implementation', function () {
+    assert.deepStrictEqual(isObject(module.largeObject()), true, 'largeObject() should return an Object.')
+    assert.deepStrictEqual(countKeys(module.largeObject()), 8, 'largeObject() should return an Object with 8 properties.')
+    // TODO: make sure there is an object called bootcampStudent and they didn't return it.
+  })
+
+  checkForFunction(filename, module, 'nestedArray')
+  it('"nestedArray" function implementation', function () {
+    assert.deepStrictEqual(module.nestedArray(), "salmon", 'nestedArray() should return the second item of nested array favoriteFoods. Remember Arrays start counting at 0')
+    // TODO: make sure they returned the reference, not "salmon".
+  })
+
+  checkForFunction(filename, module, 'dotNotation')
+  it('"dotNotation" function implementation', function () {
+    assert.deepStrictEqual(module.dotNotation(), "Susan", 'dotNotation() should return the name of bootCampStudent')
+    // TODO: make sure they returned the reference, not "Susan".
+    // TODO: make sure they used dot notation.
+  })
+}
+
+// -----------------------------------------------------------------------------
 // Run the tests
 // -----------------------------------------------------------------------------
 
@@ -567,7 +647,7 @@ if (allSyntaxValid) {
   describe('Strings', check104)
   describe('Math', check106)
   describe('Arrays', check108)
-  // TODO: Objects
+  describe('Objects', check110)
   // TODO: Boolean Operations
   // TODO: adventures in concatenation
   destroyModuleFiles()
