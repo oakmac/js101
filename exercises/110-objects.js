@@ -99,7 +99,7 @@ function nestedArray () {
   }
 
   // Note that you can chain the bracket notation to reach into the Object AND into the Array.
-  console.assert(bootcampInstructor.favoriteFoods[0] === 'chicken pot pie')
+  console.assert(bootcampInstructor['favoriteFoods'][0] === 'chicken pot pie')
 
   // Return the second item of the nested array favoriteFoods
 
@@ -124,7 +124,17 @@ function dotNotation () {
     ]
   }
 
-  // Note that you can chain the dot notation and the bracket notation.
+  // Some examples of using dot notation vs bracket notation:
+  console.assert(bootcampInstructor.name === 'Susan')
+  console.assert(bootcampInstructor['name'] === 'Susan')
+  const nameString = 'name'
+  console.assert(bootcampInstructor[nameString] === 'Susan')
+
+  console.assert(bootcampInstructor.favoriteColor === 'green')
+  console.assert(bootcampInstructor['favoriteColor'] === 'green')
+  console.assert(bootcampInstructor['favorite' + 'Color'] === 'green')
+
+  console.assert(bootcampInstructor['favoriteFoods'][0] === 'chicken pot pie')
   console.assert(bootcampInstructor.favoriteFoods[0] === 'chicken pot pie')
 
   // Return the name of the bootcampInstructor Object using dot notation
