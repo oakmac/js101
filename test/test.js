@@ -618,6 +618,12 @@ function check110 () {
     assert.deepStrictEqual(countKeys(module.largeObject()), 8, 'largeObject() should return an Object with 8 properties.')
     // TODO: make sure there is an object called bootcampStudent and they didn't return it.
   })
+
+  checkForFunction(filename, module, 'nestedArray')
+  it('"nestedArray" function implementation', function () {
+    assert.deepStrictEqual(module.nestedArray(), "salmon", 'nestedArray() should return the second item of nested array favoriteFoods. Remember Arrays start counting at 0')
+    // TODO: make sure they returned the reference, not "salmon".
+  })
 }
 
 // -----------------------------------------------------------------------------

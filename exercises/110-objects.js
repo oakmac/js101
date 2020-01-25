@@ -77,3 +77,27 @@ function largeObject () {
   }
 
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Objects aren't restricted to containing only JavaScript primitive types.
+// Remember, JavaScript primitive types include string, number, boolean, null...
+// Here is an object which contains a nested array.
+// Return the second item in the array favoriteFoods.
+
+function nestedArray () {
+  const bootcampStudent = {
+    name: "Susan",
+    favoriteColor: "green",
+    favoriteFoods: [
+      "chicken pot pie",
+      "salmon",
+      "pho"
+    ]
+  }
+
+// Note that you can chain the bracket syntax to reach into the Object AND into the Array.
+  console.assert(bootcampStudent["favoriteFoods"][0] === "chicken pot pie")
+
+// Return the second item of the nested array favoriteFoods
+
+}
