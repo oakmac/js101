@@ -624,6 +624,13 @@ function check110 () {
     assert.deepStrictEqual(module.nestedArray(), "salmon", 'nestedArray() should return the second item of nested array favoriteFoods. Remember Arrays start counting at 0')
     // TODO: make sure they returned the reference, not "salmon".
   })
+
+  checkForFunction(filename, module, 'dotNotation')
+  it('"dotNotation" function implementation', function () {
+    assert.deepStrictEqual(module.dotNotation(), "Susan", 'dotNotation() should return the name of bootCampStudent')
+    // TODO: make sure they returned the reference, not "Susan".
+    // TODO: make sure they used dot notation.
+  })
 }
 
 // -----------------------------------------------------------------------------

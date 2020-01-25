@@ -95,9 +95,35 @@ function nestedArray () {
     ]
   }
 
-// Note that you can chain the bracket syntax to reach into the Object AND into the Array.
+// Note that you can chain the bracket notation to reach into the Object AND into the Array.
   console.assert(bootcampStudent["favoriteFoods"][0] === "chicken pot pie")
 
 // Return the second item of the nested array favoriteFoods
+
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// When working with Objects, it is most common to use the dot notation to access properties.
+// Bracket notation is more flexible, but dot notation is a more convenient, readable syntax.
+// Useful Reference:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors
+//
+// Return the name of the bootcampStudent Object below
+
+function dotNotation () {
+  const bootcampStudent = {
+    name: "Susan",
+    favoriteColor: "green",
+    favoriteFoods: [
+      "chicken pot pie",
+      "salmon",
+      "pho"
+    ]
+  }
+
+// Note that you can chain the dot notation and the bracket notation.
+  console.assert(bootcampStudent.favoriteFoods[0] === "chicken pot pie")
+
+// Return the name of the bootcampStudent Object using dot notation
 
 }
