@@ -6,8 +6,10 @@ These exercises focus on basic syntax and core library functions for:
 
 - Functions
 - Numbers
+- `true`, `false`, `null`, `undefined`
 - Strings
 - Arrays
+- Objects
 
 ## Install
 
