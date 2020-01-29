@@ -653,8 +653,7 @@ function check110 () {
       }
     }
     assert.deepStrictEqual(module.hardMode(), application_state, 'hardMode() should return the Object \'applicationState\' as described in the comments')
-    // TODO: make sure they returned the reference, not "Susan".
-    // TODO: make sure they used dot notation.
+    // TODO: make sure they made the variable applicationState.
   })
 }
 
