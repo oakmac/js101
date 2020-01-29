@@ -631,6 +631,31 @@ function check110 () {
     // TODO: make sure they returned the reference, not "Susan".
     // TODO: make sure they used dot notation.
   })
+
+  checkForFunction(filename, module, 'hardMode')
+  it('"hardMode" function implementation', function () {
+    const application_state = {
+      currentPage:'homepage',
+      previousPage:'dashboard',
+      loggedIn:true,
+      user: {
+        id:245,
+        displayName:'Frank'
+      },
+      preferences: {
+        colorScheme:'retro',
+        listPadding:'comfortable',
+        blockedUsers: [
+          'baldar',
+          'krel_z',
+          'zachman'
+        ]
+      }
+    }
+    assert.deepStrictEqual(module.hardMode(), application_state, 'hardMode() should return the Object \'applicationState\' as described in the comments')
+    // TODO: make sure they returned the reference, not "Susan".
+    // TODO: make sure they used dot notation.
+  })
 }
 
 // -----------------------------------------------------------------------------

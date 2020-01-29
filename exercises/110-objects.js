@@ -140,3 +140,45 @@ function dotNotation () {
   // Return the name of the bootcampInstructor Object using dot notation
 
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// With all that you have learned about syntax in the arrays and objects exercises,
+// it is time to type out a more complex Object to help cement the ideas.
+// In the following exercise, declare and assign the variable described.
+// Return the final Object (named applicationState)
+function hardMode () {
+  // ~create an object with variable name~
+  //    bootcampInstructor
+  // ~which contains the following data~
+  //    name          =>'Susan' ,
+  //    favoriteColor =>'green' ,
+  //    favoriteFoods =>Array('chicken pot pie', 'salmon', 'pho')
+  const bootcampInstructor = {
+    name: 'Susan',
+    favoriteColor: 'green',
+    favoriteFoods: [
+      'chicken pot pie',
+      'salmon',
+      'pho'
+    ]
+  }
+
+  // ~create an object with variable name~
+  //    applicationState
+  // ~which contains the following data~
+  //    currentPage  =>'homepage' ,
+  //    previousPage =>'dashboard' ,
+  //    loggedIn     =>true ,
+  //    user         =>Object(
+  //                           id=>245 , displayName=>'Frank'
+  //                         ) ,
+  //    preferences  =>Object(
+  //                           colorScheme=>'retro',
+  //                           listPadding=>'comfortable',
+  //                           blockedUsers=>Array('baldar' , 'krel_z' , 'zachman')
+  //                         )
+
+
+  // return applicationState
+
+}
