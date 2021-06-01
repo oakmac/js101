@@ -594,7 +594,7 @@ function check110 () {
   })
 
   checkForFunction(filename, module, 'manyTypes')
-  const diverseObject = { name: 'banana', count: 42, delicious: true }
+  const diverseObject = { name: 'banana', count: 42, isDelicious: true }
   it('"manyTypes" function implementation', function () {
     assert.deepStrictEqual(module.manyTypes(), diverseObject, 'manyTypes() should return the Object of multiple types.')
   })
@@ -607,7 +607,7 @@ function check110 () {
 
   checkForFunction(filename, module, 'addKey')
   it('"addKey" function implementation', function () {
-    const bestFruit = { name: 'banana', count: 42, delicious: true, color: 'yellow' }
+    const bestFruit = { name: 'banana', count: 42, isDelicious: true, color: 'yellow' }
     assert.deepStrictEqual(module.addKey(), bestFruit, 'addKey() should return bestFruit including a "color" property.')
     // TODO: make sure they added {color:"yellow"} to bestFruit
   })
